@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 // New Task
 class NewTask extends StatefulWidget {
   // Properties
@@ -15,7 +16,21 @@ class _NewTaskState extends State<NewTask> {
   // Input Controllers
   final _taskNameController = TextEditingController();
   final _taskDescriptionController = TextEditingController();
-  DateTime _dueDate = DateTime.now();
+  DateTime _dueDate;
+
+  // Show Date Picker
+  void _presentDatePicker() {
+    showDatePicker(
+            context: context,
+            initialDate: DateTime.now(),
+            firstDate: DateTime.now(),
+            lastDate: DateTime(200020))
+        .then((value) {
+      setState(() {
+        _dueDate = value;
+      });
+    });
+  }
 
   // Submit Data
   void _submitData() {
@@ -42,7 +57,7 @@ class _NewTaskState extends State<NewTask> {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-          child: Container(
+      child: Container(
         padding: EdgeInsets.all(20),
         height: 400,
         child: Column(
@@ -69,9 +84,36 @@ class _NewTaskState extends State<NewTask> {
               decoration: InputDecoration(hintText: 'Description'),
             ),
             Container(
-              child: Text('Date'),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Container(
+                    child: _dueDate == null
+                        ? Text('Pick a date')
+                        : Text('$_dueDate'),
+                  ),
+                  TextButton(
+                      onPressed: _presentDatePicker,
+                      child: Text(
+                        'Set Due Date',
+                        style: TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.bold),
+                      )),
+                ],
+              ),
             ),
-            TextButton(onPressed: _submitData, child: Text('Add Task')),
+            Container(
+              margin: EdgeInsets.only(
+                top: 20,
+              ),
+              child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                      elevation: 10, minimumSize: Size(300, 40)),
+                  onPressed: _submitData,
+                  child: Text(
+                    'Add Task',
+                  )),
+            ),
           ],
         ),
       ),

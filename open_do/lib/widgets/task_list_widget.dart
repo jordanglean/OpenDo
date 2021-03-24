@@ -15,7 +15,6 @@ class TaskListWidget extends StatefulWidget {
 }
 
 class _TaskListWidgetState extends State<TaskListWidget> {
-
   // Widget Build
   @override
   Widget build(BuildContext context) {
@@ -44,46 +43,69 @@ class _TaskListWidgetState extends State<TaskListWidget> {
           : ListView.builder(
               itemCount: widget._taskList.length,
               itemBuilder: (ctx, index) {
-                return Card(
-                  margin: EdgeInsets.all(10),
-                    child: Container(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Container(
-                        padding: EdgeInsets.all(10),
-                        child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Text(
-                                widget._taskList[index].taskName,
-                                style: TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold,
-                                  fontFamily: 'OpenSans',
-                                ),
+                return AnimatedContainer(
+                  duration: Duration(seconds: 1),
+                  height: widget._taskList[index].height,
+                  curve: Curves.fastOutSlowIn,
+                  child: Card(
+                      margin: EdgeInsets.all(10),
+                      child: Container(
+                        height: 100,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            InkWell(
+                              onTap: () {
+                                setState(() {
+                                  widget._taskList[index].height = (widget._taskList[index].height == 100) ? 400 : 100;
+                                });
+                              },
+                              child: Container(
+                                padding: EdgeInsets.all(10),
+                                width: 300,
+                                child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: <Widget>[
+                                      Text(
+                                        widget._taskList[index].taskName,
+                                        style: TextStyle(
+                                          fontSize: 21,
+                                          fontWeight: FontWeight.bold,
+                                          fontFamily: 'OpenSans',
+                                        ),
+                                      ),
+                                      Text(
+                                        widget._taskList[index].taskDescription,
+                                        style: TextStyle(
+                                          fontSize: 16,
+                                          fontFamily: 'OpenSans',
+                                        ),
+                                      ),
+                                      Text(
+                                        widget._taskList[index].taskDueDate.toString(),
+                                        style: TextStyle(
+                                          fontSize: 16,
+                                          fontFamily: 'OpenSans',
+                                        ),
+                                      ),
+                                    ]),
                               ),
-                              Text(
-                                widget._taskList[index].taskDescription,
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  fontFamily: 'OpenSans',
-                                ),
+                            ),
+                            IconButton(
+                              icon: Icon(
+                                Icons.done,
+                                size: 32,
+                                color: Colors.deepOrange,
                               ),
-                            ]),
-                      ),
-                      IconButton(
-                        icon: Icon(
-                          Icons.done,
-                          size: 28,
-                          color: Colors.deepOrange,
+                              onPressed: () => widget._deleteTaskHandler(
+                                  widget._taskList[index].taskCreatedDate),
+                            ),
+                          ],
                         ),
-                        onPressed: () => widget._deleteTaskHandler(widget._taskList[index].taskCreatedDate),
-                      ),
-                    ],
-                  ),
-                ));
+                      )),
+                );
               }),
     );
   }
