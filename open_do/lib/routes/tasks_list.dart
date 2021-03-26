@@ -57,8 +57,9 @@ class _TaskListRouteState extends State<TaskListRoute> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.blueGrey.shade200,
+      backgroundColor: Colors.blueGrey.shade600,
       appBar: AppBar(
+        backgroundColor: Colors.blueGrey.shade900,
         leading: IconButton(
           icon: Icon(Icons.menu),
           onPressed: () {},

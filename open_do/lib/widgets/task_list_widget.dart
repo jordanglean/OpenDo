@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:open_do/widgets/task_card_details.dart';
 // Models Import
 import 'package:open_do/models/task_model.dart';
 
@@ -56,19 +58,29 @@ class _TaskListWidgetState extends State<TaskListWidget> {
                   },
                   child: _heightAnimatedContainer == 90
                       ? Card(
+                          color: Colors.blueGrey.shade100,
                           margin: EdgeInsets.all(5),
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: <Widget>[
-                                Text(
-                                  widget._taskList[index].taskName,
-                                  style: TextStyle(
-                                    fontSize: 21,
-                                    fontWeight: FontWeight.bold,
-                                    fontFamily: 'OpenSans',
-                                  ),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: <Widget>[
+                                    Text(
+                                      widget._taskList[index].taskName,
+                                      style: TextStyle(
+                                        fontSize: 21,
+                                        fontWeight: FontWeight.bold,
+                                        fontFamily: 'OpenSans',
+                                      ),
+                                    ),
+                                    Text(DateFormat.yMMMd().format(widget
+                                        ._taskList[index].taskCreatedDate)),
+                                  ],
                                 ),
                                 IconButton(
                                   icon: Icon(
@@ -83,42 +95,8 @@ class _TaskListWidgetState extends State<TaskListWidget> {
                             ),
                           ),
                         )
-                      : Card(
-                          margin: EdgeInsets.all(5),
-                          child: Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: SingleChildScrollView(
-                              child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: <Widget>[
-                                    Row(children: <Widget>[
-                                      Text(
-                                        widget._taskList[index].taskName,
-                                        style: TextStyle(
-                                          fontSize: 21,
-                                          fontWeight: FontWeight.bold,
-                                          fontFamily: 'OpenSans',
-                                        ),
-                                      ),
-                                      Text(
-                                          'Due ${widget._taskList[index].taskDueDate}'),
-                                    ]),
-                                    Divider(
-                                        color: Theme.of(context).primaryColor),
-                                    FittedBox(
-                                      child: Text(
-                                        widget._taskList[index].taskDescription,
-                                        style: TextStyle(
-                                          fontSize: 16,
-                                          fontFamily: 'OpenSans',
-                                        ),
-                                      ),
-                                    ),
-                                  ]),
-                            ),
-                          ),
-                        ),
+                      : TaskCardDetails(
+                          widget, index, widget._taskList,),
                 ),
               );
             },
