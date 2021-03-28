@@ -8,9 +8,11 @@ class TaskListWidget extends StatefulWidget {
   // Properties
   final List<TaskModel> _taskList;
   final Function _deleteTaskHandler;
+  final Function _editTaskHandler;
 
   // Constructor
-  TaskListWidget(this._taskList, this._deleteTaskHandler);
+  TaskListWidget(
+      this._taskList, this._deleteTaskHandler, this._editTaskHandler);
 
   @override
   _TaskListWidgetState createState() => _TaskListWidgetState();
@@ -96,7 +98,12 @@ class _TaskListWidgetState extends State<TaskListWidget> {
                           ),
                         )
                       : TaskCardDetails(
-                          widget, index, widget._taskList,),
+                          widget,
+                          index,
+                          widget._taskList,
+                          widget._deleteTaskHandler,
+                          widget._editTaskHandler,
+                        ),
                 ),
               );
             },

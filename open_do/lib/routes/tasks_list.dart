@@ -13,22 +13,41 @@ class TaskListRoute extends StatefulWidget {
 
 class _TaskListRouteState extends State<TaskListRoute> {
   // Local Task Data Set
-  final List<TaskModel> _taskListDataSet = [
-    // TaskModel(
-    //     taskName: 'Learn to code',
-    //     taskDescription: 'Finish Flutter Complete Reference',
-    //     taskDueDate: DateTime.now()),
+  List<TaskModel> _taskListDataSet = [
   ];
 
   // Add New Task
   void addNewTask({String taskName, String taskDescription, DateTime dueDate}) {
-    final newTk = TaskModel(
+    var newTk = TaskModel(
       taskName: taskName,
       taskDescription: taskDescription,
       taskDueDate: dueDate,
     );
     setState(() {
       _taskListDataSet.add(newTk);
+    });
+  }
+
+  // Edit Task
+  void editTask(int index, String taskName, String taskDescription){
+    if(index != null){
+      if(taskName != null && taskDescription != null){
+        _taskListDataSet[index].taskName = taskName;
+        _taskListDataSet[index].taskDescription = taskDescription;
+      }else if(taskName != null){
+        _taskListDataSet[index].taskName = taskName;
+      }else if(taskDescription != null){
+        _taskListDataSet[index].taskDescription = taskDescription;
+      }else{
+        print('No Updates');
+      }
+    }
+  }
+
+  // Complete Task
+  void completeTask(DateTime id){
+    setState(() {
+      _taskListDataSet.removeWhere((task) => task.taskCreatedDate == id);
     });
   }
 
@@ -71,7 +90,7 @@ class _TaskListRouteState extends State<TaskListRoute> {
         onPressed: () => _startCreateNewTask(context),
       ),
       body: Container(
-        child: TaskListWidget(_taskListDataSet, deleteTask),
+        child: TaskListWidget(_taskListDataSet, deleteTask, editTask),
       ),
     );
   }
